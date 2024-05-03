@@ -6,6 +6,8 @@ import click
 Session = sessionmaker(bind=engine)
 session = Session()
 
+
+
 @click.command()
 @click.option("--name", prompt="Your booking name", help="The booking name of table")
 @click.option("--email", prompt="Your booking email", help="The booking name of table")
@@ -17,9 +19,6 @@ def main():
     print("Hello There! Welcome to Yummy Sweet Restaurant Booking CLI App")
     print("Please Input number to chose next step")
     create_user()
-    # new_user = User(
-
-    # )
 
 if __name__ == "__main__":
     main()

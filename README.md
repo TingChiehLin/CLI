@@ -1,6 +1,6 @@
-# Yummy Sweet Restaurant Booking CLI App
+# Yummy Sweet Restaurant CLI App
 
-This project is for users who are able to book a table with CRUD operations, such as `Add a booking`, `Search a booking`, `Update a booking` and `Cancel a booking`
+This project is for users who are able to browser menu and book a table with CRUD operations, such as `Add a booking`, `Search a booking`, `Update a booking` and `Cancel a booking`
 
 ## Technical use
 
@@ -13,7 +13,6 @@ I develop an application use skills below:
 - SQLAlchemy
 - SQLite
 - Migration with Alembic
-- Click
 ```
 
 ***
@@ -30,6 +29,49 @@ pipenv install
 
 ```
 python3 main.py 
+```
+
+***
+
+
+## User Workflow
+
+```
+Welcome Screen
+- Initial Options
+	- View restaurant menu
+	 - Go back to input your email again
+	- View booking details
+	 	- Please input your email
+	 	 - Correct?
+	 	  - YES
+		 	  - Show the booking result
+		 	  - Exit?
+			 	  - YES
+			 	   - Go back to main page
+	 	  - NO
+	 	   - go back to input your email again
+	- Make a new booking?
+		 - Ask whether it is existing user or not 
+		  - if existing user, please Input your email
+	        - Show the user booking result
+	        - and Ask whether need to book a new?
+	         - YES
+	          - Input your name, phone number and note
+	          - Return to main page
+	      - NO
+	      - Sign up a new member and ask to book
+	      - Input Time & Date & name & phone number & note
+	      - Show the result 
+	      - Return to main page
+	 - Delete a booking
+	  - Ask to input user e-mail to confirm
+	   - Show booking result
+	    - Chose to confirm which users want to delete
+	     - YES
+	      - DELETE the booking
+	       - Exit & go back to main page
+	 - Exit & close
 ```
 
 ***

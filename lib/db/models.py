@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine, ForeignKey, Column, Integer, Float, String, DateTime, MetaData
+from sqlalchemy.orm import relationship, backref
 # from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -24,6 +25,8 @@ class User(Base):
     phone_number = Column(String())
     note = Column(String)
 
+    bookings = relationship('Booking',backref="user")
+
     def __repr__(self):
         return f"User {self.id}: " \
             + f"Name {self.name}, " \
@@ -34,7 +37,7 @@ class Booking(Base):
     id = Column(Integer, primary_key=True)
     time = Column(DateTime(), default=datetime.now())
     date = Column(String)
-    user_id = Column(Integer)
+    user_id = Column(Integer(), ForeignKey('user_id'))
 
     def __repr__(self):
         return f"Booking: {self.id} " \
@@ -45,7 +48,7 @@ class Coupon(Base):
     __tablename__ = "coupons"
     id = Column(Integer, primary_key=True)
     code = Column(String)
-    user_id = Column(Integer)
+    # user_id = Column(Integer(),ForeignKey('user_id'))
 
 class MenuItem(Base):
     def __init__(self, id, name,price):

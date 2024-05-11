@@ -1,10 +1,10 @@
 from db.models import engine, User
 from sqlalchemy.orm import sessionmaker
 
+from helpers import main_menu, menu_option
+
 Session = sessionmaker(bind=engine)
 session = Session()
-
-
 
 def create_a_booking(name,email,note):
     pass
@@ -14,20 +14,10 @@ def main():
     bookingList = []
     choice = 0
 
-    print("============================================================================")
-    print("Hello There! Welcome to Yummy Sweet Restaurant CLI App")
-    print("Developed by Jay Lin")
-    print("============================================================================")
-
+    main_menu()
     while choice != 4:
-        print("Please choose what you want to do")
-        print("Input 0 - See our menu")
-        print("Input 1 - View booking details")
-        print("Input 2 - Make a new booking")
-        print("Input 3 - Delete a booking")
-        print("Input 4 - Quit")
-        choice = int(input("Please Enter your choice"))
-
+        menu_option()
+        choice = int(input("Please Enter your choice: "))
         if(choice == 0):
            print("inpt 0")
         elif(choice == 1):

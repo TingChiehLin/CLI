@@ -19,13 +19,14 @@ Base = declarative_base(metadata=metadata)
 
 class User(Base):
     __tablename__ = "customers"
+
     id = Column(Integer, primary_key=True)
     name = Column(String)
     email = Column(String(55))
     phone_number = Column(String())
     note = Column(String)
 
-    bookings = relationship('Booking',backref="user")
+    bookings = relationship('Booking',backref=backref("user"))
 
     def __repr__(self):
         return f"User {self.id}: " \
@@ -34,10 +35,11 @@ class User(Base):
 
 class Booking(Base):
     __tablename__ = "bookings"
+
     id = Column(Integer, primary_key=True)
     time = Column(DateTime(), default=datetime.now())
     date = Column(String)
-    user_id = Column(Integer(), ForeignKey('user_id'))
+    user_id = Column(Integer(), ForeignKey('user.id'))
 
     def __repr__(self):
         return f"Booking: {self.id} " \

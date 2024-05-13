@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, ForeignKey, Column, Integer, Float, String, DateTime, MetaData
+from sqlalchemy import ForeignKey, Column, Integer, Float, String, DateTime, MetaData
 from sqlalchemy.orm import relationship, backref
 # from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.declarative import declarative_base
@@ -9,11 +9,7 @@ convention = {
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 }
 
-db_url = "sqlite:///yummy_sweet.db"
-
 metadata = MetaData(naming_convention=convention)
-
-engine = create_engine(db_url)
 
 Base = declarative_base(metadata=metadata)
 
@@ -48,20 +44,22 @@ class Booking(Base):
 
 class Coupon(Base):
     __tablename__ = "coupons"
+
     id = Column(Integer, primary_key=True)
     code = Column(String)
     # user_id = Column(Integer(),ForeignKey('user_id'))
 
 class MenuItem(Base):
+    __tablename__ = "menu_item"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    price = Column(Float(2))
+
     def __init__(self, id, name,price):
         self.id = None
         self.name = name
         self.price = price
 
-    __tablename__ = "menu_item"
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    price = Column(Float(2))
-
 # Create the database tables
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)

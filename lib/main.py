@@ -1,15 +1,9 @@
 import sys
-from helpers import main_menu,prompt_input, menu_option,  option_action
+from helpers import main_menu, user_request
 
 def main():
     main_menu()
-    selected_value = prompt_input()
-
-    while(not selected_value):
-        selected_value = prompt_input()
-
-    option_action(selected_value)
-    main()
+    user_request()
 
 if __name__ == "__main__":
     main()

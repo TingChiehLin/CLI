@@ -42,12 +42,12 @@ class Booking(Base):
               + f"Time: {self.time}" \
               + f"Date: {self.date}"
 
-class Coupon(Base):
-    __tablename__ = "coupons"
+# many to many
+# users can book many restaurants
+# restaurants can have many users
 
-    id = Column(Integer, primary_key=True)
-    code = Column(String)
-    # user_id = Column(Integer(),ForeignKey('user_id'))
+# class Restaurant(Base):
+#     pass
 
 class MenuItem(Base):
     __tablename__ = "menu_item"

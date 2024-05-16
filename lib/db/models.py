@@ -12,49 +12,49 @@ metadata = MetaData(naming_convention=convention)
 
 Base = declarative_base(metadata=metadata)
 
-restaurant_user = Table(
-    'restaurant_user',
-    Base.metadata,
-    Column('user_id', ForeignKey('user.id'), primary_key=True),
-    Column('restaurant_id', ForeignKey('restaurant_id.id'), primary_key=True),
-    extend_existing=True,
-)
+# restaurant_user = Table(
+#     'restaurant_user',
+#     Base.metadata,
+#     Column('user_id', ForeignKey('user.id'), primary_key=True),
+#     Column('restaurant_id', ForeignKey('restaurant_id.id'), primary_key=True),
+#     extend_existing=True,
+# )
 
-class User(Base):
-    __tablename__ = "customers"
+# class User(Base):
+#     __tablename__ = "customers"
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    email = Column(String(55))
-    phone_number = Column(String())
-    note = Column(String)
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String)
+#     email = Column(String(55))
+#     phone_number = Column(String())
+#     note = Column(String)
 
-    bookings = relationship('Booking',backref=backref("users"))
-    restaurants = relationship('Restaurants', secondary=restaurant_user, back_populates='users')
+#     # bookings = relationship('Booking',backref=backref("user"))
+#     # restaurants = relationship('Restaurant', secondary=restaurant_user, back_populates='users')
 
-    def __repr__(self):
-        return f"User {self.id}: " \
-            + f"Name {self.name}, " \
-            + f"Email: {self.email}"
+#     def __repr__(self):
+#         return f"User {self.id}: " \
+#             + f"Name {self.name}, " \
+#             + f"Email: {self.email}"
 
-class Booking(Base):
-    __tablename__ = "bookings"
+# class Booking(Base):
+#     __tablename__ = "bookings"
 
-    id = Column(Integer, primary_key=True)
-    time = Column(DateTime(), default=datetime.now())
-    date = Column(String)
+#     id = Column(Integer, primary_key=True)
+#     time = Column(DateTime(), default=datetime.now())
+#     date = Column(String)
  
-    created_at = Column(DateTime(), server_default=func.now())
-    updated_at = Column(DateTime(), onupdate=func.now())
+#     created_at = Column(DateTime(), server_default=func.now())
+#     updated_at = Column(DateTime(), onupdate=func.now())
 
-    user_id = Column(Integer(), ForeignKey('user.id'))
-    restaurant_id = Column(Integer(), ForeignKey('restaurant.id'))
+#     user_id = Column(Integer(), ForeignKey('user.id'))
+#     restaurant_id = Column(Integer(), ForeignKey('restaurant.id'))
 
 
-    def __repr__(self):
-        return f"Booking: {self.id} " \
-              + f"Time: {self.time}" \
-              + f"Date: {self.date}"
+#     def __repr__(self):
+#         return f"Booking: {self.id} " \
+#               + f"Time: {self.time}" \
+#               + f"Date: {self.date}"
 
 # many to many
 # user can book many restaurants
@@ -74,19 +74,17 @@ class Booking(Base):
 #     # user = relationship('User', back_populates='restaurants')
 #     # booking = relationship('Booking', back_populates='restaurants')
 
+# class Restaurant(Base):
+#     __tablename__ = "restaurants"
 
+#     id = Column(Integer(), primary_key=True)
+#     name = Column(String)
+#     rate = Column(Integer())
 
-class Restaurant(Base):
-    __tablename__ = "restaurants"
+#     bookings = relationship('Booking', backref=backref("restaurant"))
+#     users = relationship('User', secondary=restaurant_user, back_populates='restaurants')
 
-    id = Column(Integer(), primary_key=True)
-    name = Column(String)
-    rate = Column(Integer())
-
-    bookings = relationship('Booking', backref=backref("restaurants"))
-    users = relationship('User', secondary=restaurant_user, back_populates='restaurants')
-
-    def __repr__(self):
-        return f'Restaurant(id:{self.id},)' + \
-               f'Name: {self.name}' + \
-               f'rate:{self.rate},'
+#     def __repr__(self):
+#         return f'Restaurant(id:{self.id},)' + \
+#                f'Name: {self.name}' + \
+#                f'rate:{self.rate},'

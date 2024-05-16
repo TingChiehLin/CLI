@@ -32,10 +32,10 @@ class User(Base):
 #     # bookings = relationship('Booking',backref=backref("user"))
 #     # restaurants = relationship('Restaurant', secondary=restaurant_user, back_populates='users')
 
-#     def __repr__(self):
-#         return f"User {self.id}: " \
-#             + f"Name {self.name}, " \
-#             + f"Email: {self.email}"
+    def __repr__(self):
+        return f"User {self.id}: " \
+            + f"Name {self.name}, " \
+            + f"Email: {self.email}"
 
 # class Booking(Base):
 #     __tablename__ = "bookings"
@@ -48,8 +48,7 @@ class User(Base):
 #     updated_at = Column(DateTime(), onupdate=func.now())
 
 #     user_id = Column(Integer(), ForeignKey('user.id'))
-#     restaurant_id = Column(Integer(), ForeignKey('restaurant.id'))
-
+#     # restaurant_id = Column(Integer(), ForeignKey('restaurant.id'))
 
 #     def __repr__(self):
 #         return f"Booking: {self.id} " \

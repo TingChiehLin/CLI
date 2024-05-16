@@ -1,4 +1,3 @@
-import sys
 from helpers import main_menu, user_request
 
 def main():

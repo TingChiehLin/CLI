@@ -1,6 +1,5 @@
-from sqlalchemy import ForeignKey, Column, Integer, Float, String, DateTime, MetaData
+from sqlalchemy import ForeignKey, Column, Integer, Float, String, DateTime, MetaData, Table, func
 from sqlalchemy.orm import relationship, backref
-# from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.declarative import declarative_base
 
 from datetime import datetime
@@ -13,6 +12,14 @@ metadata = MetaData(naming_convention=convention)
 
 Base = declarative_base(metadata=metadata)
 
+restaurant_user = Table(
+    'restaurant_user',
+    Base.metadata,
+    Column('user_id', ForeignKey('user.id'), primary_key=True),
+    Column('restaurant_id', ForeignKey('restaurant_id.id'), primary_key=True),
+    extend_existing=True,
+)
+
 class User(Base):
     __tablename__ = "customers"
 
@@ -22,7 +29,8 @@ class User(Base):
     phone_number = Column(String())
     note = Column(String)
 
-    bookings = relationship('Booking',backref=backref("user"))
+    bookings = relationship('Booking',backref=backref("users"))
+    restaurants = relationship('Restaurants', secondary=restaurant_user, back_populates='users')
 
     def __repr__(self):
         return f"User {self.id}: " \
@@ -35,7 +43,13 @@ class Booking(Base):
     id = Column(Integer, primary_key=True)
     time = Column(DateTime(), default=datetime.now())
     date = Column(String)
+ 
+    created_at = Column(DateTime(), server_default=func.now())
+    updated_at = Column(DateTime(), onupdate=func.now())
+
     user_id = Column(Integer(), ForeignKey('user.id'))
+    restaurant_id = Column(Integer(), ForeignKey('restaurant.id'))
+
 
     def __repr__(self):
         return f"Booking: {self.id} " \
@@ -43,23 +57,36 @@ class Booking(Base):
               + f"Date: {self.date}"
 
 # many to many
-# users can book many restaurants
-# restaurants can have many users
+# user can book many restaurants
+# a restaurant can have many users
 
-# class Restaurant(Base):
-#     pass
+# one to many
+# a booking belongs to a restaurant
+# a restaurant can have many bookings
 
-class MenuItem(Base):
-    __tablename__ = "menu_item"
+# class ReviewUser(Base):
+#     __tablename__ = "review_users"
+    
+#     id = Column(Integer(), primary_key=True)
+#     user_id = Column(ForeignKey('user.id'))
+#     booking_id = Column(Integer(), ForeignKey('book.id'))
 
-    id = Column(Integer, primary_key=True)
+#     # user = relationship('User', back_populates='restaurants')
+#     # booking = relationship('Booking', back_populates='restaurants')
+
+
+
+class Restaurant(Base):
+    __tablename__ = "restaurants"
+
+    id = Column(Integer(), primary_key=True)
     name = Column(String)
-    price = Column(Float(2))
+    rate = Column(Integer())
 
-    def __init__(self, id, name,price):
-        self.id = None
-        self.name = name
-        self.price = price
+    bookings = relationship('Booking', backref=backref("restaurants"))
+    users = relationship('User', secondary=restaurant_user, back_populates='restaurants')
 
-# Create the database tables
-# Base.metadata.create_all(engine)
+    def __repr__(self):
+        return f'Restaurant(id:{self.id},)' + \
+               f'Name: {self.name}' + \
+               f'rate:{self.rate},'

@@ -1,7 +1,7 @@
 import os
 from sqlalchemy  import create_engine
 from sqlalchemy.orm import sessionmaker
-from db.models import User
+from db.models import User, Booking, Restaurant
 
 db_url = "sqlite:///yummy_sweet.db"
 
@@ -81,9 +81,9 @@ def add_new_booking():
 
 def delete_booking():
     print("Delete a booking")
-    removeID = int(input("Input your booking ID: "))
+    removeID = input("Input your booking ID: ")
     for booking in bookingList:
-        if(removeID in booking):
+        if(booking.id == removeID):
             print(removeID)
         else:
             print("We can not find it")

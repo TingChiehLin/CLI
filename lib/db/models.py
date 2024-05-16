@@ -20,14 +20,14 @@ Base = declarative_base(metadata=metadata)
 #     extend_existing=True,
 # )
 
-# class User(Base):
-#     __tablename__ = "customers"
+class User(Base):
+    __tablename__ = "customers"
 
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String)
-#     email = Column(String(55))
-#     phone_number = Column(String())
-#     note = Column(String)
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    email = Column(String(55))
+    phone_number = Column(String())
+    note = Column(String)
 
 #     # bookings = relationship('Booking',backref=backref("user"))
 #     # restaurants = relationship('Restaurant', secondary=restaurant_user, back_populates='users')

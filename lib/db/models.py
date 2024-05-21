@@ -11,8 +11,6 @@ from sqlalchemy import (
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 
-from datetime import datetime
-
 convention = {
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 }
@@ -30,22 +28,22 @@ Base = declarative_base(metadata=metadata)
 # )
 
 
-# class User(Base):
-#     __tablename__ = "users"
+class User(Base):
+    __tablename__ = "users"
 
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String)
-#     email = Column(String(55))
-#     phone_number = Column(String())
-#     note = Column(String)
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    email = Column(String(55))
+    phone_number = Column(String())
+    note = Column(String)
 
-#     bookings = relationship("Booking", backref=backref("user"))
-#     # restaurants = relationship(
-#     #     "Restaurant", secondary=restaurant_user, back_populates="users"
-#     # )
+    # bookings = relationship("Booking", backref=backref("user"))
+    # restaurants = relationship(
+    #     "Restaurant", secondary=restaurant_user, back_populates="users"
+    # )
 
-#     def __repr__(self):
-#         return f"User {self.id}: " + f"Name {self.name}, " + f"Email: {self.email}"
+    def __repr__(self):
+        return f"User {self.id}: " + f"Name {self.name}, " + f"Email: {self.email}"
 
 
 # class Booking(Base):

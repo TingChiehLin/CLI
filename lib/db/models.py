@@ -21,13 +21,13 @@ metadata = MetaData(naming_convention=convention)
 
 Base = declarative_base(metadata=metadata)
 
-# restaurant_user = Table(
-#     "restaurant_user",
-#     Base.metadata,
-#     Column("user_id", ForeignKey("user.id"), primary_key=True),
-#     Column("restaurant_id", ForeignKey("restaurant_id.id"), primary_key=True),
-#     extend_existing=True,
-# )
+restaurant_user = Table(
+    "restaurant_user",
+    Base.metadata,
+    Column("user_id", ForeignKey("user.id"), primary_key=True),
+    Column("restaurant_id", ForeignKey("restaurant_id.id"), primary_key=True),
+    extend_existing=True,
+)
 
 
 class User(Base):

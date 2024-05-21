@@ -48,21 +48,21 @@ class User(Base):
         return f"User {self.id}: " + f"Name {self.name}, " + f"Email: {self.email}"
 
 
-# class Booking(Base):
-#     __tablename__ = "bookings"
+class Booking(Base):
+    __tablename__ = "bookings"
 
-#     id = Column(Integer, primary_key=True)
-#     time = Column(DateTime(), default=datetime.now())
-#     date = Column(String)
+    id = Column(Integer, primary_key=True)
+    time = Column(DateTime(), default=datetime.now())
+    date = Column(String)
 
-#     created_at = Column(DateTime(), server_default=func.now())
-#     updated_at = Column(DateTime(), onupdate=func.now())
+    created_at = Column(DateTime(), server_default=func.now())
+    updated_at = Column(DateTime(), onupdate=func.now())
 
-#     user_id = Column(Integer(), ForeignKey("users.id"))
-#     restaurant_id = Column(Integer(), ForeignKey("restaurant.id"))
+    user_id = Column(Integer(), ForeignKey("users.id"))
+    restaurant_id = Column(Integer(), ForeignKey("restaurant.id"))
 
-#     def __repr__(self):
-#         return f"Booking: {self.id} " + f"Time: {self.time}" + f"Date: {self.date}"
+    def __repr__(self):
+        return f"Booking: {self.id} " + f"Time: {self.time}" + f"Date: {self.date}"
 
 
 # many to many

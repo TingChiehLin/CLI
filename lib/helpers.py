@@ -1,7 +1,7 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db.models import User, Booking
+from db.models import User
 
 db_url = "sqlite:////Users/JayLinXR/Desktop/python-p3-cli-project-template/lib/db/yummy_sweet.db"
 
@@ -92,24 +92,32 @@ def add_new_booking():
 
 def update_booking():
     print("Update a booking")
-    email = input("Please Input your booking email: ")
+    email = input("Please Input your booking email=> ")
     user = session.query(User).filter(User.email == email).first()
-    for booking in user.bookings:
-        updateDate = input("Input your update date")
-        booking.date = updateDate
-        print(booking)
-
-    session.commit()
+    for index, booking in enumerate(user.bookings):
+        print(f"Input your {index} number to update your {booking}")
+        choice = int(input("Please Enter your choice: "))
+        if index == choice:
+            updateDate = input("Input your update date")
+            booking.date = updateDate
+            session.commit()
+        else:
+            print("Sorry We can not find your bookings")
+            update_booking()
+    user_request()
 
 
 def delete_booking():
     print("Delete a booking")
-    bookingList = session.query(Booking).all()
-    removeID = input("Input your booking ID: ")
-    for booking in bookingList:
-        if booking.id == removeID:
-            print(removeID)
+    email = input("Please Input your booking email=> ")
+    user = session.query(User).filter(User.email == email).first()
+    for index, booking in enumerate(user.bookings):
+        print(f"Input your {index} number to update your {booking}")
+        choice = int(input("Please Enter your choice: "))
+        if index == choice:
+            session.delete(booking)
+            session.commit()
         else:
-            print("We can not find it")
-
+            print("Sorry We can not find your bookings")
+            delete_booking()
     user_request()

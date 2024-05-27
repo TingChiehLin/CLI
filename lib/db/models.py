@@ -21,13 +21,13 @@ metadata = MetaData(naming_convention=convention)
 
 Base = declarative_base(metadata=metadata)
 
-# restaurant_user = Table(
-#     "restaurant_user",
-#     Base.metadata,
-#     Column("user_id", ForeignKey("user.id"), primary_key=True),
-#     Column("restaurant_id", ForeignKey("restaurant_id.id"), primary_key=True),
-#     extend_existing=True,
-# )
+restaurant_user = Table(
+    "restaurant_users",
+    Base.metadata,
+    Column("user_id", ForeignKey("users.id"), primary_key=True),
+    Column("restaurant_id", ForeignKey("restaurants.id"), primary_key=True),
+    extend_existing=True,
+)
 
 
 class User(Base):
@@ -39,10 +39,10 @@ class User(Base):
     phone_number = Column(String())
     note = Column(String)
 
-    # bookings = relationship("Booking", backref=backref("user"))
-    # restaurants = relationship(
-    #     "Restaurant", secondary=restaurant_user, back_populates="users"
-    # )
+    bookings = relationship("Booking", backref=backref("user"))
+    restaurants = relationship(
+        "Restaurant", secondary=restaurant_user, back_populates="users"
+    )
 
     def __repr__(self):
         return f"User {self.id}: " + f"Name {self.name}, " + f"Email: {self.email}"
@@ -58,8 +58,8 @@ class Booking(Base):
     created_at = Column(DateTime(), server_default=func.now())
     updated_at = Column(DateTime(), onupdate=func.now())
 
-    # user_id = Column(Integer(), ForeignKey("users.id"))
-    # restaurant_id = Column(Integer(), ForeignKey("restaurant.id"))
+    user_id = Column(Integer(), ForeignKey("users.id"))
+    restaurant_id = Column(Integer(), ForeignKey("restaurants.id"))
 
     def __repr__(self):
         return f"Booking: {self.id} " + f"Time: {self.time}" + f"Date: {self.date}"
@@ -81,10 +81,10 @@ class Restaurant(Base):
     name = Column(String)
     rate = Column(Integer())
 
-    # bookings = relationship("Booking", backref=backref("restaurant"))
-    # users = relationship(
-    #     "User", secondary=restaurant_user, back_populates="restaurants"
-    # )
+    bookings = relationship("Booking", backref=backref("restaurant"))
+    users = relationship(
+        "User", secondary=restaurant_user, back_populates="restaurants"
+    )
 
     def __repr__(self):
         return (

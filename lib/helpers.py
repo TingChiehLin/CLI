@@ -1,7 +1,7 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db.models import User
+from db.models import User, Booking
 
 db_url = "sqlite:////Users/JayLinXR/Desktop/python-p3-cli-project-template/lib/db/yummy_sweet.db"
 
@@ -68,8 +68,14 @@ def option_action(value):
         exit()
 
 
+def options_restaurants():
+    print("Which restaurants do you like to book?")
+    print("Input 1 - Thai Circle")
+    print("Input 2 - Japanese Udon Izakaya Maedaya")
+    print("Input 3 - Taiwanese Yes")
+
+
 def view_booking():
-    print("View booking details")
     email = input("Please Input your booking email: ")
     user = session.query(User).filter(User.email == email).first()
 
@@ -79,19 +85,25 @@ def view_booking():
 
 
 def add_new_booking():
-    print("Make a new booking")
+    options_restaurants()
+    restaurant_choice = int(input("Input your favourite restaurant =>"))
+
     name = input("Input your booking name =>")
     email = input("Input your booking email =>")
     phone_number = input("Input your phone_number: ")
     note = input("Input your booking note =>")
-    new_booking = User(name, email, phone_number, note)
-    session.add(new_booking)
+
+    time = input("")
+    date = input("")
+
+    new_user = User(name, email, phone_number, note)
+    new_booking = Booking()
+    session.add(new_user)
     session.commit()
     user_request()
 
 
 def update_booking():
-    print("Update a booking")
     email = input("Please Input your booking email=> ")
     user = session.query(User).filter(User.email == email).first()
     for index, booking in enumerate(user.bookings):
@@ -108,7 +120,6 @@ def update_booking():
 
 
 def delete_booking():
-    print("Delete a booking")
     email = input("Please Input your booking email=> ")
     user = session.query(User).filter(User.email == email).first()
     for index, booking in enumerate(user.bookings):

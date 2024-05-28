@@ -44,6 +44,13 @@ class User(Base):
         "Restaurant", secondary=restaurant_user, back_populates="users"
     )
 
+    def __init__(self, name, email, phone_number, note, id=None):
+        self.id = id
+        self.name = name
+        self.email = email
+        self.phone_number = phone_number
+        self.note = note
+
     def __repr__(self):
         return f"User {self.id}: " + f"Name {self.name}, " + f"Email: {self.email}"
 
@@ -60,6 +67,11 @@ class Booking(Base):
 
     user_id = Column(Integer(), ForeignKey("users.id"))
     restaurant_id = Column(Integer(), ForeignKey("restaurants.id"))
+
+    def __init__(self, time, date, id=None):
+        self.id = id
+        self.time = time
+        self.date = date
 
     def __repr__(self):
         return f"Booking: {self.id} " + f"Time: {self.time}" + f"Date: {self.date}"
@@ -85,6 +97,10 @@ class Restaurant(Base):
     users = relationship(
         "User", secondary=restaurant_user, back_populates="restaurants"
     )
+
+    def __init__(self, name, rate, id=None):
+        self.name = name
+        self.rate = rate
 
     def __repr__(self):
         return (

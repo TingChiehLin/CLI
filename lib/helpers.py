@@ -1,7 +1,7 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db.models import User, Booking
+from db.models import Restaurant, User, Booking
 
 db_url = "sqlite:////Users/JayLinXR/Desktop/python-p3-cli-project-template/lib/db/yummy_sweet.db"
 
@@ -68,36 +68,67 @@ def option_action(value):
         exit()
 
 
-def options_restaurants():
+def prompt_restaurant():
     print("Which restaurants do you like to book?")
-    print("Input 1 - Thai Circle")
-    print("Input 2 - Japanese Udon Izakaya Maedaya")
-    print("Input 3 - Taiwanese Yes")
+    restaurants = session.query(Restaurant).all()
+
+    for index, restaurant in enumerate(restaurants):
+        print(f"${index} - ${restaurant.name}")
+
+    choice = int(input("Please Enter your restaurant choice: "))
+    if choice <= restaurant.count:
+        return choice
+    else:
+        print(f"Please input correct range number from 0 to {restaurant.count}")
+        return None
+
+
+def prompt_email():
+    email = input("Please Input your booking email: ")
+    return email
 
 
 def view_booking():
-    email = input("Please Input your booking email: ")
+    clear_screen()
+    email = prompt_email()
+
     user = session.query(User).filter(User.email == email).first()
 
-    for booking in user.bookings:
-        print(booking)
-    user_request()
+    if user:
+        print(f"User Name: {user.name}")
+        for booking in user.bookings:
+            print(f"Booking Time: ${booking.time}")
+            print(f"Booking Restaurant: ${booking.restaurant.name}")
+        user_request()
+    else:
+        print(f"Sorry, the {email} does not exist")
+        print("Do you wish to input another email?")
+        choice = int(
+            input("Input 1 to attempt your email again, Input 2 go back to home page")
+        )
+        if choice == 1:
+            view_booking()
+        elif choice == 2:
+            user_request()
 
 
 def add_new_booking():
-    options_restaurants()
-    restaurant_choice = int(input("Input your favourite restaurant =>"))
+    restaurant_choice = prompt_restaurant()
+    while not restaurant_choice:
+        restaurant_choice = prompt_restaurant()
 
+    # user = session
+    # initial user data
     name = input("Input your booking name =>")
     email = input("Input your booking email =>")
     phone_number = input("Input your phone_number: ")
     note = input("Input your booking note =>")
-
-    time = input("")
-    date = input("")
-
     new_user = User(name, email, phone_number, note)
+
+    time = input("Input your booking time=>")
+    date = input("Input your booking date=?")
     new_booking = Booking()
+
     session.add(new_user)
     session.commit()
     user_request()

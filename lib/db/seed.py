@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from models import User, Booking, Restaurant
 
+
 if __name__ == "__main__":
     engine = create_engine("sqlite:///yummy_sweet.db")
     Session = sessionmaker(bind=engine)
@@ -26,9 +27,13 @@ if __name__ == "__main__":
     session.commit()
 
     for i in range(6):
-        restaurant = Restaurant(name=fake.unique.name(), rate=random.random(5))
+        restaurant = Restaurant(name=fake.unique.name(), rate=random.randint(1, 5))
         restaurants.append(restaurant)
         session.add(restaurant)
         session.commit()
 
-    # booking Model
+    booking1 = Booking(time="13:00pm", date="31/05/2024")
+    booking1.user_id = user1.id
+    booking1.restaurant_id = restaurants[0].id
+    session.add(booking1)
+    session.commit()

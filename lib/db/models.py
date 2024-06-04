@@ -59,11 +59,11 @@ class Booking(Base):
     __tablename__ = "bookings"
 
     id = Column(Integer, primary_key=True)
-    time = Column(DateTime(), default=datetime.now())
+    time = Column(String)
     date = Column(String)
 
     created_at = Column(DateTime(), server_default=func.now())
-    updated_at = Column(DateTime(), onupdate=func.now())
+    updated_at = Column(DateTime(), default=func.now(), onupdate=func.now())
 
     user_id = Column(Integer(), ForeignKey("users.id"))
     restaurant_id = Column(Integer(), ForeignKey("restaurants.id"))

@@ -1,8 +1,11 @@
-from helpers import main_menu, user_request
+from helpers import intro, user_request, menu_action
+
 
 def main():
-    main_menu()
-    user_request()
+    intro()
+    choice = user_request(2)
+    menu_action(choice)
+
 
 if __name__ == "__main__":
     main()

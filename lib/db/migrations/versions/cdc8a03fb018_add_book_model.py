@@ -24,8 +24,10 @@ def upgrade() -> None:
     op.create_table(
         "bookings",
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column("time", sa.DateTime(), nullable=True),
+        sa.Column("time", sa.String(), nullable=True),
         sa.Column("date", sa.String(), nullable=True),
+        sa.Column("user_id", sa.Integer(), nullable=False),
+        sa.Column("restaurant_id", sa.Integer(), nullable=False),
         sa.Column(
             "created_at",
             sa.DateTime(),

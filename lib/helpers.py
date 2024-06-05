@@ -61,22 +61,21 @@ def user_request(options):
         return selected_value
 
 
-def menu_action(value):
+def menu_action(user_choice):
     clear_screen()
-    if value == 1:
+    if user_choice == 1:
         view_booking()
-    elif value == 2:
+    elif user_choice == 2:
         print("Quit the application successfully!")
         exit()
 
 
-def submenu_action(value):
-    clear_screen()
-    if value == 1:
+def submenu_action(user_choice):
+    if user_choice == 1:
         add_new_booking()
-    elif value == 2:
+    elif user_choice == 2:
         update_booking()
-    elif value == 3:
+    elif user_choice == 3:
         delete_booking()
 
 
@@ -85,13 +84,13 @@ def prompt_restaurant():
     restaurants = session.query(Restaurant).all()
 
     for index, restaurant in enumerate(restaurants):
-        print(f"${index} - ${restaurant.name}")
+        print(f"{index+1} - {restaurant.name}")
 
-    choice = int(input("Please Enter your restaurant choice: "))
-    if choice <= restaurant.count:
-        return choice
+    user_Input = int(input("Please Enter your restaurant choice: "))
+    if user_Input <= len(restaurants):
+        return user_Input
     else:
-        print(f"Please input correct range number from 0 to {restaurant.count}")
+        print(f"Please input correct range number from 1 to {len(restaurants)}")
         return None
 
 
@@ -107,90 +106,99 @@ def email_not_exist(email):
 
 def view_booking():
     clear_screen()
-    email = prompt_email()
-
-    user = session.query(User).filter(User.email == email).first()
-
-    if user:
+    print("Are you already registed our member?")
+    user_Input = int(input("1 => YES, 2 => NO, Please Enter your choice: "))
+    if user_Input == 1:
+        user_email = prompt_email()
+        user = session.query(User).filter(User.email == user_email).first()
         print(f"User Name: {user.name}")
         for index, booking in enumerate(user.bookings):
-            print(f"=========== {index+1} ===========")
+            print(f"=========== No:{index+1} ===========")
             print(f"Booking Date: {booking.date}")
             print(f"Booking Time: {booking.time}")
             print(f"Booking Restaurant: {booking.restaurant.name}")
             print("=================================")
-            choice = user_request(4)
-            submenu_action(choice)
+            print("What will you do next?")
+            user_Input = user_request(4)
+            submenu_action(user_Input)
+    elif user_Input == 2:
+        print("Create a new user")
+        name = input("Input your booking name => ")
+        email = input("Input your booking email => ")
+        phone_number = input("Input your phone_number: ")
+        note = input("Input your booking note => ")
+        new_user = User(name, email, phone_number, note)
+        session.add(new_user)
+        session.commit()
     else:
-        email_not_exist(email)
-        choice = int(
-            input("Input 1 to attempt your email again, Input 2 go back to home page")
+        print("Please input valid range number 1 to 2")
+        user_Input = int(
+            input("Input 1 to go back view booking, Input 2 go back to home page =>")
         )
-        if choice == 1:
+        if user_Input == 1:
             view_booking()
-        elif choice == 2:
+        elif user_Input == 2:
             user_request(2)
 
 
 def add_new_booking():
+    clear_screen()
+
     restaurant_choice = prompt_restaurant()
     while not restaurant_choice:
         restaurant_choice = prompt_restaurant()
 
-    # user = session
-    # initial user data
-    name = input("Input your booking name =>")
-    email = input("Input your booking email =>")
-    phone_number = input("Input your phone_number: ")
-    note = input("Input your booking note =>")
-    new_user = User(name, email, phone_number, note)
-
-    time = input("Input your booking time=>")
-    date = input("Input your booking date=?")
-    new_booking = Booking()
-
-    session.add(new_user)
+    time = input("Input your booking time=> ")
+    date = input("Input your booking date=> ")
+    new_booking = Booking(time, date)
+    session.add(new_booking)
     session.commit()
     user_request(4)
 
 
 def update_booking():
-    email = input("Please Input your booking email=> ")
-    user = session.query(User).filter(User.email == email).first()
-    for index, booking in enumerate(user.bookings):
-        print(f"Input your {index} number to update your {booking}")
-        choice = int(input("Please Enter your choice: "))
-        if index == choice:
-            updateDate = input("Input your update date")
-            booking.date = updateDate
-            session.commit()
-        else:
-            print("Sorry We can not find your bookings")
-            update_booking()
+    print("Input your number to update your booking")
+    user_Input = int(input("Please Enter your choice: "))
+
+    # How do you update the specific user's booking globally
+    # so I do not need to for loop or search user run again?
+
+    # if user_Input == user_choice:
+    #     updateDate = input("Input your update date")
+    #     # How to update booking date? for the specific user's booking
+    #     # booking.date = updateDate
+    #     session.commit()
+    # else:
+    #     print(
+    #         f"Your input is out of range, please input valid range 1 to {len(user_bookings)}"
+    #     )
+    #     update_booking()
+
     user_request(4)
 
 
 def delete_booking():
-    clear_screen()
-    email = prompt_email()
-    user = session.query(User).filter(User.email == email).first()
+    print("Input your number to delete your booking")
+    user_Input = int(input("Please Enter your choice: "))
 
-    if user:
-        for index, booking in enumerate(user.bookinbgs):
-            print(
-                f"Input your {index} number to update your ${booking.restaurant.name}, Booking Time: ${booking.time}"
-            )
-            choice = int(input("Please Enter your choice: "))
-            if index == choice:
-                session.delete(booking)
-                session.commit()
-        user_request(4)
-    else:
-        email_not_exist(email)
-        choice = int(
-            input("Input 1 to attempt your email again, Input 2 go back to home page")
-        )
-        if choice == 1:
-            delete_booking()
-        elif choice == 2:
-            user_request(2)
+    # if index == choice:
+    #     pass
+    #         print(
+    #             f"Input your {index} number to update your ${booking.restaurant.name}, Booking Time: ${booking.time}"
+    #         )
+    #         choice = int(input("Please Enter your choice: "))
+    #         if index == choice:
+    #             session.delete(booking)
+    #             session.commit()
+    #     user_request(4)
+    # else:
+    #     email_not_exist(email)
+    #     choice = int(
+    #         input("Input 1 to attempt your email again, Input 2 go back to home page")
+    #     )
+    #     if choice == 1:
+    #         delete_booking()
+    #     elif choice == 2:
+    #         user_request(3)
+
+    user_request(4)

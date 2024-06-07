@@ -1,6 +1,6 @@
 # Yummy Sweet Restaurant CLI App
 
-This project is for users who are able to browser menu and book a table with CRUD operations, such as `Add a booking`, `Search a booking`, `Update a booking` and `Cancel a booking`
+This project is for users who are able to browser menu and book a table with CRUD operations, such as `View bookings`, `Add a booking`, `Search a booking`, `Update a booking` and `Cancel a booking`
 
 ## Technical use
 
@@ -38,39 +38,59 @@ python3 main.py
 
 ```
 Welcome Screen
-- Initial Options
-	- View restaurant menu
-	 - Go back to input your email again
 	- View booking details
-	 	- Please input your email
-	 	 - Correct?
-	 	  - YES
-		 	  - Show the booking result
-		 	  - Exit?
-			 	  - YES
-			 	   - Go back to main page
-	 	  - NO
-	 	   - go back to input your email again
+		- Please input your booking email
+			- Check user's email whether exist
+				- YES
+					- Show the booking results including name, time and restaurant
+						- Make a new booking
+						- Update a booking
+						- Delete a booking
+						- Exit current page
+					- Go back to main page
+				- NO
+					- Ask to re-try email again
+					- Go back to main page
+	- Exit & Close application
+
+
+
+
+
 	- Make a new booking?
-		 - Ask whether it is existing user or not 
-		  - if existing user, please Input your email
-	        - Show the user booking result
-	        - and Ask whether need to book a new?
-	         - YES
-	          - Input your name, phone number and note
-	          - Return to main page
-	      - NO
-	      - Sign up a new member and ask to book
-	      - Input Time & Date & name & phone number & note
-	      - Show the result 
-	      - Return to main page
-	 - Delete a booking
-	  - Ask to input user e-mail to confirm
-	   - Show booking result
-	    - Chose to confirm which users want to delete
-	     - YES
-	      - DELETE the booking
-	       - Exit & go back to main page
+	    - Grab a list of restuarants from database and show
+		- Ask which restaurants are you going to book?
+			- Select the restaurant
+			- Find the user whether exist by eamil? or Create a new user
+			- YES
+				- Using the user to make a new booking 
+	          	- Input your name, phone number and note
+	         	- Return to main page
+	    	- NO
+				- Create a new member
+				- Ask to Input Time & Date & name & phone number & note
+	    		- Show the result 
+	      		- Return to main page
+		- Update a booking
+			- Search a certain user by email
+			- Check the user whether exist 
+				- YES
+					- Show all of booking details
+					- Let a user select which booking that need to update
+					- Update the booking details(name, time, date)
+					- Return to main page
+				- NO
+					- Ask to re-try email again
+					- Go back to main page
+	 	- Delete a booking
+	  		- Ask to input user e-mail
+				- YES
+	   				- Show booking result
+	    			- Chose to confirm which user want to delete
+	      			- DELETE the booking
+				- No
+					- Ask to re-try email again
+	       			- Exit & go back to main page
 	 - Exit & close
 ```
 
@@ -78,6 +98,6 @@ Welcome Screen
 
 ## Learning Resources
 
-- [Click API](https://pypi.org/project/click/)
+- [Faker](https://pypi.org/project/Faker/0.7.4/)
 - [Create a repo- GitHub Docs](https://docs.github.com/en/get-started/quickstart/create-a-repo)
 - [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)

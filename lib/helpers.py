@@ -70,9 +70,9 @@ def menu_action(user_choice):
         exit()
 
 
-def submenu_action(user_choice, user_bookings):
+def submenu_action(selected_user, user_choice, user_bookings):
     if user_choice == 1:
-        add_new_booking()
+        add_new_booking(selected_user)
     elif user_choice == 2:
         update_booking(user_bookings)
     elif user_choice == 3:
@@ -91,10 +91,10 @@ def prompt_restaurant():
     user_Input = int(input("Please Enter your restaurant choice: "))
     if user_Input <= len(restaurants):
         selected_restaurant = restaurants[index - 1]
-        new_restaurant = Restaurant(selected_restaurant.name, selected_restaurant.rate)
-        session.add(new_restaurant)
-        session.commit()
-        return user_Input
+        # new_restaurant = Restaurant(selected_restaurant.name, selected_restaurant.rate)
+        # session.add(new_restaurant)
+        # session.commit()
+        return selected_restaurant
     else:
         print(f"Please input correct range number from 1 to {len(restaurants)}")
         return None
@@ -126,7 +126,7 @@ def view_booking():
             print("=================================")
             print("What will you do next?")
             user_Input = user_request(4)
-            submenu_action(user_Input, user.bookings)
+            submenu_action(user, user_Input, user.bookings)
     elif user_Input == 2:
         print("Create a new user")
         name = input("Input your booking name => ")
@@ -147,7 +147,7 @@ def view_booking():
             user_request(2)
 
 
-def add_new_booking():
+def add_new_booking(selected_user):
     clear_screen()
 
     restaurant_choice = prompt_restaurant()
@@ -157,9 +157,11 @@ def add_new_booking():
     time = input("Input your booking time=> ")
     date = input("Input your booking date=> ")
     new_booking = Booking(time, date)
+    new_booking.restaurant = restaurant_choice
+    new_booking.user = selected_user
     session.add(new_booking)
     session.commit()
-
+    print("Create a new booking successfully")
     user_request(4)
 
 

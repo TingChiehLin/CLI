@@ -91,9 +91,6 @@ def prompt_restaurant():
     user_Input = int(input("Please Enter your restaurant choice: "))
     if user_Input <= len(restaurants):
         selected_restaurant = restaurants[index - 1]
-        # new_restaurant = Restaurant(selected_restaurant.name, selected_restaurant.rate)
-        # session.add(new_restaurant)
-        # session.commit()
         return selected_restaurant
     else:
         print(f"Please input correct range number from 1 to {len(restaurants)}")
@@ -159,6 +156,8 @@ def add_new_booking(selected_user):
     new_booking = Booking(time, date)
     new_booking.restaurant = restaurant_choice
     new_booking.user = selected_user
+    # new_booking.restaurant_id = restaurant_choice.id
+    # new_booking.user_id = selected_user.id
     session.add(new_booking)
     session.commit()
     print("Create a new booking successfully")
@@ -177,6 +176,7 @@ def update_booking(user_bookings):
         choice = int(input("Are you sure that you want to delete? 1 => YES, 2 => NO"))
         if choice == 1:
             updateDate = input("Input your update date")
+            # Question
             selected_booking.date = updateDate
             session.commit()
         elif choice == 2:

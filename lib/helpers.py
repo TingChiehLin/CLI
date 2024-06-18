@@ -173,15 +173,18 @@ def update_booking(user_bookings):
         print(f"Booking Time: {selected_booking.time}")
         print(f"Booking Date: {selected_booking.date}")
         print("======================================")
-        choice = int(input("Are you sure that you want to delete? 1 => YES, 2 => NO"))
+        choice = int(
+            input("Are you sure that you want to update? 1 => YES, 2 => NO =>")
+        )
         if choice == 1:
-            updateDate = input("Input your update date")
-            # Question
-            selected_booking.date = updateDate
+            update_date = input("Input your update date =>")
+            selected_booking.date = update_date
+            update_time = input("Input your update time =>")
+            selected_booking.time = update_time
             session.commit()
         elif choice == 2:
             choice = int(
-                input("Do you want to go back to options page? 1 => YES, 2 => NO")
+                input("Do you want to go back to options page? 1 => YES, 2 => NO =>")
             )
             if choice == 1:
                 user_request(4)
@@ -201,13 +204,15 @@ def delete_booking(user_bookings):
         print(f"Booking Time: {selected_booking.time}")
         print(f"Booking Date: {selected_booking.date}")
         print("======================================")
-        choice = int(input("Are you sure that you want to delete? 1 => YES, 2 => NO"))
+        choice = int(
+            input("Are you sure that you want to delete? 1 => YES, 2 => NO =>")
+        )
         if choice == 1:
             session.delete(selected_booking)
             session.commit()
         elif choice == 2:
             choice = int(
-                input("Do you want to go back to options page? 1 => YES, 2 => NO")
+                input("Do you want to go back to options page? 1 => YES, 2 => NO =>")
             )
             if choice == 1:
                 user_request(4)

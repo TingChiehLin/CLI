@@ -9,6 +9,8 @@ engine = create_engine(db_url)
 Session = sessionmaker(bind=engine)
 session = Session()
 
+user = None
+
 
 def clear_screen():
     os.system("clear")
@@ -98,7 +100,7 @@ def prompt_restaurant():
 
 
 def prompt_email():
-    email = input("Please Input your booking email: ")
+    email = input("Please Input your email: ")
     return email
 
 
@@ -107,41 +109,68 @@ def email_not_exist(email):
     print("Do you wish to input another email?")
 
 
-def view_booking():
-    clear_screen()
-    print("Have you already registed our member?")
-    user_Input = int(input("1 => YES, 2 => NO, Please Enter your choice: "))
-    if user_Input == 1:
-        user_email = prompt_email()
-        user = session.query(User).filter(User.email == user_email).first()
-        print(f"User Name: {user.name}")
+def check_member():
+    user_email = prompt_email()
+    global user
+    user = session.query(User).filter(User.email == user_email).first()
+    if user:
+        print(f"Welcome {user.name}: ")
+        return True
+    else:
+        print(
+            "You have not registed our member, Please registed a new member by E-mail"
+        )
+        return False
+
+
+def show_booking():
+    if not user.bookings:
+        print(
+            f"Sorry {user.name}, we could not find any your bookings. Please create a booking"
+        )
+        print("Do you want to create a new booking?")
+        user_Input = int(
+            input("Input 1 to creat a new booking, Input 2 to exit the application => ")
+        )
+        if user_Input == 1:
+            add_new_booking(user)
+        elif user_Input == 2:
+            exit()
+    else:
         for index, booking in enumerate(user.bookings):
             print(f"=========== No:{index+1} ===========")
+            print(f"Booking User Name: {user.name}")
             print(f"Booking Date: {booking.date}")
             print(f"Booking Time: {booking.time}")
             print(f"Booking Restaurant: {booking.restaurant.name}")
             print("=================================")
             print("What will you do next?")
-            user_Input = user_request(4)
-            submenu_action(user, user_Input, user.bookings)
-    elif user_Input == 2:
-        print("Create a new user")
-        name = input("Input your booking name => ")
-        email = input("Input your booking email => ")
-        phone_number = input("Input your phone_number: ")
-        note = input("Input your booking note => ")
-        new_user = User(name, email, phone_number, note)
-        session.add(new_user)
-        session.commit()
+        user_Input = user_request(4)
+        submenu_action(user, user_Input, user.bookings)
+
+
+def create_new_user():
+    print("=== Create a new user ===")
+    name = input("Input your booking name => ")
+    email = input("Input your booking email => ")
+    phone_number = input("Input your phone_number: ")
+    note = input("Input your booking note => ")
+    new_user = User(name, email, phone_number, note)
+    session.add(new_user)
+    session.commit()
+    print("Create a new user sucessfully!")
+    user_Input = user_request(2)
+    menu_action(user_Input)
+
+
+def view_booking():
+    print("View Booking")
+    clear_screen()
+    is_member = check_member()
+    if is_member:
+        show_booking()
     else:
-        print("Please input valid range number 1 to 2")
-        user_Input = int(
-            input("Input 1 to go back view booking, Input 2 go back to home page =>")
-        )
-        if user_Input == 1:
-            view_booking()
-        elif user_Input == 2:
-            user_request(2)
+        create_new_user()
 
 
 def add_new_booking(selected_user):
@@ -161,7 +190,8 @@ def add_new_booking(selected_user):
     session.add(new_booking)
     session.commit()
     print("Create a new booking successfully")
-    user_request(4)
+    user_Input = user_request(4)
+    submenu_action(user, user_Input, user.bookings)
 
 
 def update_booking(user_bookings):

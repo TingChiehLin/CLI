@@ -55,6 +55,7 @@ def prompt_input(options):
 
 
 def user_request(options):
+    print("What will you do next?")
     selected_value = prompt_input(options)
 
     while not selected_value:
@@ -110,20 +111,42 @@ def email_not_exist(email):
 
 
 def check_member():
-    user_email = prompt_email()
-    global user
-    user = session.query(User).filter(User.email == user_email).first()
-    if user:
-        print(f"Welcome {user.name}: ")
-        return True
-    else:
+    user_member = int(
+        input("Are you our member? Yes => Please Input 1, No => Please Input 2: ")
+    )
+    if user_member == 1:
+        user_email = prompt_email()
+        global user
+        user = session.query(User).filter(User.email == user_email).first()
+        if user:
+            print(f"Welcome {user.name}: ")
+            return True
+        else:
+            print(
+                "You have not registed our member, Please registed a new member by e-mail"
+            )
+            return False
+    elif user_member == 2:
         print(
-            "You have not registed our member, Please registed a new member by E-mail"
+            "You have not registed our member, Please registed a new member by e-mail"
         )
         return False
+    else:
+        print("Please Input right range from 1 to 2")
+        check_member()
 
 
 def show_booking():
+    for index, booking in enumerate(user.bookings):
+        print(f"=========== No:{index+1} ===========")
+        print(f"Booking User Name: {user.name}")
+        print(f"Booking Date: {booking.date}")
+        print(f"Booking Time: {booking.time}")
+        print(f"Booking Restaurant: {booking.restaurant.name}")
+        print("=================================")
+
+
+def check_booking():
     if not user.bookings:
         print(
             f"Sorry {user.name}, we could not find any your bookings. Please create a booking"
@@ -137,22 +160,15 @@ def show_booking():
         elif user_Input == 2:
             exit()
     else:
-        for index, booking in enumerate(user.bookings):
-            print(f"=========== No:{index+1} ===========")
-            print(f"Booking User Name: {user.name}")
-            print(f"Booking Date: {booking.date}")
-            print(f"Booking Time: {booking.time}")
-            print(f"Booking Restaurant: {booking.restaurant.name}")
-            print("=================================")
-            print("What will you do next?")
+        show_booking()
         user_Input = user_request(4)
         submenu_action(user, user_Input, user.bookings)
 
 
 def create_new_user():
     print("=== Create a new user ===")
-    name = input("Input your booking name => ")
-    email = input("Input your booking email => ")
+    name = input("Input your user name => ")
+    email = input("Input your email => ")
     phone_number = input("Input your phone_number: ")
     note = input("Input your booking note => ")
     new_user = User(name, email, phone_number, note)
@@ -164,11 +180,10 @@ def create_new_user():
 
 
 def view_booking():
-    print("View Booking")
     clear_screen()
     is_member = check_member()
     if is_member:
-        show_booking()
+        check_booking()
     else:
         create_new_user()
 
@@ -190,6 +205,7 @@ def add_new_booking(selected_user):
     session.add(new_booking)
     session.commit()
     print("Create a new booking successfully")
+    show_booking()
     user_Input = user_request(4)
     submenu_action(user, user_Input, user.bookings)
 

@@ -115,6 +115,8 @@ def check_member():
         input("Are you our member? Yes => Please Input 1, No => Please Input 2: ")
     )
     if user_member == 1:
+        # while
+
         user_email = prompt_email()
         global user
         user = session.query(User).filter(User.email == user_email).first()
@@ -122,10 +124,8 @@ def check_member():
             print(f"Welcome {user.name}: ")
             return True
         else:
-            print(
-                "You have not registed our member, Please registed a new member by e-mail"
-            )
-            return False
+            print("Sorry we can not find your user, please input e-mail again")
+
     elif user_member == 2:
         print(
             "You have not registed our member, Please registed a new member by e-mail"
@@ -228,6 +228,8 @@ def update_booking(user_bookings):
             update_time = input("Input your update time =>")
             selected_booking.time = update_time
             session.commit()
+            ## user input
+            ## Ask user what do you want to do next
         elif choice == 2:
             choice = int(
                 input("Do you want to go back to options page? 1 => YES, 2 => NO =>")
@@ -264,6 +266,7 @@ def delete_booking(user_bookings):
                 user_request(4)
             elif choice == 2:
                 delete_booking(user_bookings)
+            ## Ask user what do you want to do next
         else:
             print(f"Please input valid booking number, 1 to {len(user_bookings)}")
             delete_booking(user_bookings)

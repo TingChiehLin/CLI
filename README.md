@@ -1,13 +1,12 @@
 # Yummy Sweet Restaurant CLI App
 
-This project is for users who are able to browser menu and book a table with CRUD operations, such as `View bookings`, `Add a booking`, `Search a booking`, `Update a booking` and `Cancel a booking`
+This project is for users who are able to browser menu and book a table with CRUD operations, such as `View bookings`, `Add a booking`, `Update a booking` and `Delete a booking`
 
 ## Technical use
 
 I develop an application use skills below:
 
 ```console
-
 - Python 
 - SQL
 - SQLAlchemy

@@ -93,10 +93,11 @@ def prompt_restaurant():
 
     user_Input = int(input("Please Enter your restaurant choice: "))
     if user_Input <= len(restaurants):
-        selected_restaurant = restaurants[index - 1]
+        selected_restaurant = restaurants[user_Input - 1]
+        print(f"selected_restaurant {selected_restaurant}")
         return selected_restaurant
     else:
-        print(f"Please input correct range number from 1 to {len(restaurants)}")
+        print(f"Please input correct range number from 1 to {len(restaurants)-1}")
         return None
 
 
@@ -193,7 +194,7 @@ def add_new_booking(selected_user):
     restaurant_choice = prompt_restaurant()
     while not restaurant_choice:
         restaurant_choice = prompt_restaurant()
-
+    print(f"restaurant_choice -> {restaurant_choice}")
     time = input("Input your booking time=> ")
     date = input("Input your booking date=> ")
     new_booking = Booking(time, date)
@@ -234,7 +235,8 @@ def update_booking(user_bookings):
                 input("Do you want to go back to options page? 1 => YES, 2 => NO =>")
             )
             if choice == 1:
-                user_request(4)
+                user_Input = user_request(4)
+                submenu_action(user, user_Input, user.bookings)
             elif choice == 2:
                 update_booking(user_bookings)
         else:
@@ -257,15 +259,17 @@ def delete_booking(user_bookings):
         if choice == 1:
             session.delete(selected_booking)
             session.commit()
+            user_Input = user_request(4)
+            submenu_action(user, user_Input, user.bookings)
         elif choice == 2:
             choice = int(
                 input("Do you want to go back to options page? 1 => YES, 2 => NO =>")
             )
             if choice == 1:
-                user_request(4)
+                user_Input = user_request(4)
+                submenu_action(user, user_Input, user.bookings)
             elif choice == 2:
                 delete_booking(user_bookings)
-            ## Ask user what do you want to do next
         else:
             print(f"Please input valid booking number, 1 to {len(user_bookings)}")
             delete_booking(user_bookings)

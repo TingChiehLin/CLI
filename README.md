@@ -18,13 +18,13 @@ I develop an application use skills below:
 
 ## Getting Started
 
-- First of all, you need to install dependency
+1. First of all, you need to install dependency
 
 ```
 pipenv install
 ```
 
-- Run the application, you need to start a main entry point. You will see some of questions to ask you to do next step
+2. Run the application, you need to start a main entry point. You will see some of questions to ask you to do next step
 
 ```
 python3 main.py 

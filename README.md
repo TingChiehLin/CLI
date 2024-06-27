@@ -30,6 +30,13 @@ pipenv install
 python3 main.py 
 ```
 
+## How to set up database
+
+- Set up Database
+
+```
+```
+
 ## Learning Resources
 
 - [Faker](https://pypi.org/project/Faker/0.7.4/)

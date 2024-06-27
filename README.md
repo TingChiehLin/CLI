@@ -35,7 +35,26 @@ python3 main.py
 - Set up Database
 
 ```
+alembic init 
 ```
+
+- install Alembic with pipenv
+
+```
+pipenv install alembic
+```
+
+- initialize Alembic 
+```
+alembic init alembic
+```
+
+- Configure Alembic in the `alambic.ini`
+```
+sqlalchemy.url = sqlite:///your_database.db
+```
+
+- 
 
 ## Learning Resources
 
